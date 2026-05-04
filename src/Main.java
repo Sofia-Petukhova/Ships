@@ -181,7 +181,7 @@ public class Main {
 
                 System.out.println("Ошибка: число должно быть в диапазоне от " + min + " до " + max + ".");
             } catch (NumberFormatException e) {
-                System.out.println("Ошибка: нужно ввести число.");
+    System.out.println("Ошибка: число слишком большое или введено не целое число.");
             }
         }
     }
