@@ -4,15 +4,13 @@ public class Ship {
     private int id;
     private String name;
 
-    private static final int DEFAULT_ID = 0;
-    private static final String DEFAULT_NAME = "Корабль без названия";
-
     public Ship() {
-        this(DEFAULT_ID, DEFAULT_NAME);
+        this.id = 0;
+        this.name = "Без названия";
     }
 
     public Ship(int id, String name) {
-        this.id = id;
+        setId(id);
         setName(name);
     }
 
@@ -25,11 +23,17 @@ public class Ship {
     }
 
     public void setId(int id) {
+        if (id < 0) {
+            throw new IllegalArgumentException("ID не может быть отрицательным.");
+        }
         this.id = id;
     }
 
     public void setName(String name) {
-        this.name = Objects.requireNonNullElse(name, DEFAULT_NAME);
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Название не может быть пустым.");
+        }
+        this.name = name;
     }
 
     @Override
@@ -38,11 +42,14 @@ public class Ship {
             return true;
         }
 
-        if (!(obj instanceof Ship ship)) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
 
-        return id == ship.id && Objects.equals(name, ship.name);
+        Ship ship = (Ship) obj;
+
+        return id == ship.id &&
+                Objects.equals(name, ship.name);
     }
 
     @Override
@@ -52,7 +59,7 @@ public class Ship {
 
     @Override
     public String toString() {
-        return "ID корабля: " + id +
-                ",\n Название корабля:" + name;
+        return "id=" + id +
+                ", name='" + name + "'";
     }
 }
